@@ -1,0 +1,2006 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Царицынъ — Хроника восстановления</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@400;600;700&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* =============================================
+       ЦВЕТА И ПЕРЕМЕННЫЕ
+       Меняйте значения здесь, чтобы изменить палитру
+    ============================================= */
+    :root {
+      --цвет-фон:          #F5EFE2;   /* основной фон — светлый пергамент */
+      --цвет-фон-2:        #EDE4D0;   /* чуть темнее, для шапки */
+      --цвет-карточка:     #FDFAF4;   /* фон карточек — почти белый */
+      --цвет-карточка-2:   #F0E9D8;   /* карточка чуть темнее */
+      --цвет-пергамент:    #2C1A0E;   /* тёмный текст заголовков */
+      --цвет-золото:       #8B6914;   /* золото — тёмное, читаемое на светлом */
+      --цвет-золото-ярк:   #B8902A;   /* золото ярче для акцентов */
+      --цвет-алый:         #7A1515;   /* алый — для кнопок и акцентов */
+      --цвет-алый-ярк:     #A01E1E;   /* алый при hover */
+      --цвет-текст:        #3D2B1A;   /* основной текст */
+      --цвет-текст-dim:    #7A6040;   /* приглушённый текст */
+      --цвет-рамка:        rgba(139, 105, 20, 0.25);  /* рамки карточек */
+      --цвет-рамка-2:      rgba(139, 105, 20, 0.12);  /* тонкие рамки */
+    }
+
+    /* =============================================
+       СБРОС И БАЗОВЫЕ СТИЛИ
+    ============================================= */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--цвет-фон);
+      color: var(--цвет-текст);
+      font-family: 'Lora', Georgia, serif;
+      font-size: 16px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* =============================================
+       ШАПКА САЙТА
+    ============================================= */
+    .шапка {
+      text-align: center;
+      padding: 52px 20px 42px;
+      background: linear-gradient(to bottom, #E8DCC8, var(--цвет-фон));
+      border-bottom: 1px solid var(--цвет-рамка);
+    }
+
+    .шапка__подпись {
+      font-size: 10px;
+      letter-spacing: 8px;
+      color: var(--цвет-золото);
+      opacity: 0.7;
+      margin-bottom: 14px;
+    }
+
+    .шапка__заголовок {
+      font-family: 'Cormorant SC', serif;
+      font-size: clamp(48px, 10vw, 96px);
+      font-weight: 700;
+      color: var(--цвет-пергамент);
+      letter-spacing: 0.14em;
+      text-shadow: 0 2px 8px rgba(122, 21, 21, 0.15);
+    }
+
+    .шапка__слоган {
+      font-style: italic;
+      color: var(--цвет-текст-dim);
+      font-size: 14px;
+      letter-spacing: 0.15em;
+      margin-top: 10px;
+    }
+
+    /* =============================================
+       НАВИГАЦИЯ
+    ============================================= */
+    .навигация {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      background: rgba(245, 239, 226, 0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--цвет-рамка);
+    }
+
+    .навигация__кнопка {
+      font-family: 'Cormorant SC', serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      color: var(--цвет-текст-dim);
+      background: none;
+      border: none;
+      padding: 16px 20px;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+
+    .навигация__кнопка:hover {
+      color: var(--цвет-пергамент);
+    }
+
+    .навигация__кнопка--активная {
+      color: var(--цвет-алый);
+    }
+
+    .навигация__кнопка--активная::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 16px;
+      right: 16px;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--цвет-алый), transparent);
+    }
+
+    /* =============================================
+       ОБЩИЙ КОНТЕЙНЕР И СТРАНИЦЫ
+    ============================================= */
+    .контейнер {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .страница {
+      display: none;
+      padding: 48px 0 80px;
+      animation: появление 0.3s ease;
+    }
+
+    .страница--активная {
+      display: block;
+    }
+
+    @keyframes появление {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =============================================
+       ЗАГОЛОВОК РАЗДЕЛА
+    ============================================= */
+    .заголовок-раздела {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .заголовок-раздела h2 {
+      font-family: 'Cormorant SC', serif;
+      font-size: clamp(24px, 5vw, 38px);
+      font-weight: 600;
+      color: var(--цвет-пергамент);
+      letter-spacing: 0.1em;
+    }
+
+    .заголовок-раздела p {
+      font-style: italic;
+      color: var(--цвет-текст-dim);
+      font-size: 15px;
+      margin-top: 6px;
+    }
+
+    .разделитель {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 12px 0;
+      color: var(--цвет-золото);
+      opacity: 0.5;
+      letter-spacing: 5px;
+    }
+
+    .разделитель::before,
+    .разделитель::after {
+      content: '';
+      height: 1px;
+      width: 70px;
+    }
+
+    .разделитель::before {
+      background: linear-gradient(to right, transparent, var(--цвет-золото));
+    }
+
+    .разделитель::after {
+      background: linear-gradient(to left, transparent, var(--цвет-золото));
+    }
+
+    /* =============================================
+       КАРТОЧКА
+    ============================================= */
+    .карточка {
+      background: var(--цвет-карточка);
+      border: 1px solid var(--цвет-рамка);
+      border-radius: 3px;
+      padding: 26px 30px;
+      position: relative;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(100, 70, 20, 0.07);
+    }
+
+    .карточка:hover {
+      border-color: rgba(139, 105, 20, 0.42);
+      box-shadow: 0 4px 20px rgba(100, 70, 20, 0.12);
+    }
+
+    /* =============================================
+       ФОРМЫ
+    ============================================= */
+    .поле {
+      margin-bottom: 18px;
+    }
+
+    .поле label {
+      display: block;
+      font-family: 'Cormorant SC', serif;
+      font-size: 10px;
+      letter-spacing: 0.17em;
+      color: var(--цвет-золото);
+      margin-bottom: 6px;
+    }
+
+    .поле input,
+    .поле textarea,
+    .поле select {
+      width: 100%;
+      background: var(--цвет-фон);
+      border: 1px solid var(--цвет-рамка);
+      border-radius: 2px;
+      color: var(--цвет-текст);
+      font-family: 'Lora', serif;
+      font-size: 14px;
+      padding: 10px 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .поле input:focus,
+    .поле textarea:focus,
+    .поле select:focus {
+      border-color: rgba(139, 105, 20, 0.6);
+      background: white;
+    }
+
+    .поле select option {
+      background: var(--цвет-фон);
+    }
+
+    .поле textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    /* =============================================
+       КНОПКИ
+    ============================================= */
+    .кнопка {
+      font-family: 'Cormorant SC', serif;
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      font-weight: 600;
+      border: none;
+      border-radius: 2px;
+      padding: 12px 24px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    /* Красная — для основных действий */
+    .кнопка--красная {
+      background: var(--цвет-алый);
+      color: #F5EFE2;
+      box-shadow: 0 2px 8px rgba(122, 21, 21, 0.3);
+    }
+
+    .кнопка--красная:hover {
+      background: var(--цвет-алый-ярк);
+      box-shadow: 0 4px 16px rgba(122, 21, 21, 0.4);
+      transform: translateY(-1px);
+    }
+
+    /* Прозрачная — для вторичных действий */
+    .кнопка--прозрачная {
+      background: transparent;
+      color: var(--цвет-золото);
+      border: 1px solid var(--цвет-рамка);
+    }
+
+    .кнопка--прозрачная:hover {
+      border-color: rgba(139, 105, 20, 0.5);
+      background: rgba(139, 105, 20, 0.07);
+    }
+
+    /* =============================================
+       ПРАВИЛА (главная страница)
+    ============================================= */
+    .блок-правил {
+      margin-bottom: 44px;
+    }
+
+    .блок-правил__шапка {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .блок-правил__заголовок {
+      font-family: 'Cormorant SC', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--цвет-пергамент);
+      letter-spacing: 0.08em;
+    }
+
+    /* Фильтр по категориям */
+    .фильтр-категорий {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 18px;
+    }
+
+    .фильтр-категорий__кнопка {
+      font-family: 'Cormorant SC', serif;
+      font-size: 10px;
+      letter-spacing: 0.13em;
+      padding: 4px 13px;
+      border: 1px solid var(--цвет-рамка);
+      border-radius: 1px;
+      background: transparent;
+      color: var(--цвет-текст-dim);
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+
+    .фильтр-категорий__кнопка:hover,
+    .фильтр-категорий__кнопка--активная {
+      border-color: var(--цвет-золото);
+      color: var(--цвет-золото);
+      background: rgba(139, 105, 20, 0.07);
+    }
+
+    /* Список правил */
+    .список-правил {
+      display: grid;
+      gap: 14px;
+    }
+
+    .правило__категория {
+      font-family: 'Cormorant SC', serif;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      color: var(--цвет-золото);
+      margin-bottom: 5px;
+    }
+
+    .правило__заголовок {
+      font-family: 'Cormorant SC', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--цвет-пергамент);
+      margin-bottom: 8px;
+    }
+
+    .правило__текст {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--цвет-текст);
+      white-space: pre-wrap;
+    }
+
+    /* Аккордеон FAQ */
+    .список-фак {
+      display: grid;
+      gap: 10px;
+    }
+
+    .фак-элемент {
+      background: var(--цвет-карточка);
+      border: 1px solid var(--цвет-рамка);
+      border-radius: 3px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+      box-shadow: 0 1px 4px rgba(100, 70, 20, 0.06);
+    }
+
+    .фак-элемент--открытый {
+      border-color: rgba(139, 105, 20, 0.45);
+    }
+
+    .фак-вопрос {
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      font-family: 'Cormorant SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--цвет-пергамент);
+      letter-spacing: 0.04em;
+      padding: 15px 80px 15px 20px;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.18s;
+    }
+
+    /* Иконка раскрытия */
+    .фак-вопрос::after {
+      content: '✦';
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%) rotate(0deg);
+      color: var(--цвет-золото);
+      opacity: 0.5;
+      font-size: 9px;
+      transition: transform 0.25s;
+    }
+
+    .фак-элемент--открытый .фак-вопрос::after {
+      transform: translateY(-50%) rotate(45deg);
+      opacity: 1;
+    }
+
+    .фак-ответ {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--цвет-текст);
+      padding: 0 20px;
+      white-space: pre-wrap;
+    }
+
+    .фак-элемент--открытый .фак-ответ {
+      max-height: 600px;
+      padding: 14px 20px 18px;
+      border-top: 1px solid var(--цвет-рамка-2);
+    }
+
+    /* Кнопки удаления — появляются при наведении */
+    .кнопка-удалить {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      color: var(--цвет-текст-dim);
+      cursor: pointer;
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.2s;
+      padding: 4px;
+    }
+
+    .карточка:hover .кнопка-удалить,
+    .фак-элемент:hover .фак-удалить {
+      opacity: 0.35;
+    }
+
+    .кнопка-удалить:hover,
+    .фак-удалить:hover {
+      opacity: 1 !important;
+      color: var(--цвет-алый);
+    }
+
+    .фак-удалить {
+      position: absolute;
+      right: 42px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--цвет-текст-dim);
+      cursor: pointer;
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.2s;
+      padding: 4px;
+    }
+
+    /* Пустое состояние */
+    .пусто {
+      text-align: center;
+      padding: 44px 20px;
+      color: var(--цвет-текст-dim);
+    }
+
+    .пусто__иконка {
+      font-size: 38px;
+      opacity: 0.3;
+      margin-bottom: 12px;
+    }
+
+    .пусто p {
+      font-style: italic;
+      font-size: 16px;
+    }
+
+    /* =============================================
+       ГЕНЕРАТОРЫ
+    ============================================= */
+    .генератор {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    @media (max-width: 640px) {
+      .генератор { grid-template-columns: 1fr; }
+    }
+
+    /* Заглушка до генерации */
+    .результат-заглушка {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 260px;
+      text-align: center;
+      color: var(--цвет-текст-dim);
+      padding: 32px;
+    }
+
+    .результат-заглушка__иконка {
+      font-size: 44px;
+      opacity: 0.25;
+      margin-bottom: 12px;
+    }
+
+    .результат-заглушка p {
+      font-style: italic;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    /* Результат генерации */
+    .результат__имя {
+      font-family: 'Cormorant SC', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--цвет-пергамент);
+      margin-bottom: 3px;
+    }
+
+    .результат__подзаголовок {
+      font-style: italic;
+      color: var(--цвет-золото);
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .результат__блок {
+      margin-bottom: 14px;
+    }
+
+    .результат__метка {
+      font-family: 'Cormorant SC', serif;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--цвет-золото);
+      margin-bottom: 5px;
+    }
+
+    .результат__текст {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--цвет-текст);
+    }
+
+    /* Характеристики — 4 штуки */
+    .характеристики {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .хар-ячейка {
+      background: var(--цвет-фон);
+      border: 1px solid var(--цвет-рамка);
+      border-radius: 2px;
+      padding: 8px 6px;
+      text-align: center;
+    }
+
+    .хар-ячейка__название {
+      display: block;
+      font-family: 'Cormorant SC', serif;
+      font-size: 8px;
+      letter-spacing: 0.07em;
+      color: var(--цвет-текст-dim);
+      margin-bottom: 3px;
+    }
+
+    .хар-ячейка__значение {
+      font-family: 'Cormorant SC', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--цвет-пергамент);
+    }
+
+    /* Теги */
+    .теги {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 3px;
+    }
+
+    .тег {
+      font-family: 'Cormorant SC', serif;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      padding: 3px 9px;
+      border: 1px solid var(--цвет-рамка);
+      border-radius: 1px;
+      color: var(--цвет-текст-dim);
+      background: var(--цвет-фон);
+    }
+
+    .тег--золото {
+      border-color: rgba(139, 105, 20, 0.45);
+      color: var(--цвет-золото);
+    }
+
+    .тег--красный {
+      border-color: rgba(122, 21, 21, 0.35);
+      color: var(--цвет-алый);
+    }
+
+    /* Цели квеста */
+    .цели-квеста {
+      list-style: none;
+    }
+
+    .цели-квеста li {
+      padding: 5px 0;
+      border-bottom: 1px solid var(--цвет-рамка-2);
+      font-size: 14px;
+      color: var(--цвет-текст);
+      display: flex;
+      gap: 9px;
+    }
+
+    .цели-квеста li::before {
+      content: '◆';
+      color: var(--цвет-золото);
+      opacity: 0.5;
+      font-size: 7px;
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+
+    /* NPC */
+    .нпс-карточка {
+      background: var(--цвет-фон);
+      border: 1px solid var(--цвет-рамка-2);
+      border-radius: 2px;
+      padding: 9px 13px;
+      margin-bottom: 7px;
+    }
+
+    .нпс-карточка__имя {
+      font-family: 'Cormorant SC', serif;
+      font-size: 13px;
+      color: var(--цвет-пергамент);
+      margin-bottom: 2px;
+    }
+
+    .нпс-карточка__описание {
+      font-size: 13px;
+      color: var(--цвет-текст-dim);
+      line-height: 1.5;
+    }
+
+    .результат__действия {
+      display: flex;
+      gap: 9px;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--цвет-рамка-2);
+    }
+
+    /* =============================================
+       СТРАНИЦА «О ИГРЕ»
+    ============================================= */
+    .о-игре {
+      max-width: 700px;
+      margin: 0 auto;
+      display: grid;
+      gap: 20px;
+    }
+
+    .о-игре h3 {
+      font-family: 'Cormorant SC', serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--цвет-пергамент);
+      margin-bottom: 10px;
+      letter-spacing: 0.05em;
+    }
+
+    .о-игре p,
+    .о-игре ul {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--цвет-текст);
+    }
+
+    .о-игре ul {
+      padding-left: 18px;
+    }
+
+    .о-игре li {
+      margin-bottom: 4px;
+    }
+
+    .о-игре li::marker {
+      color: var(--цвет-золото);
+    }
+
+    .цитата {
+      border-left: 3px solid var(--цвет-алый);
+      padding: 13px 18px;
+      background: rgba(122, 21, 21, 0.05);
+      font-style: italic;
+      font-size: 16px;
+      line-height: 1.72;
+      color: var(--цвет-пергамент);
+    }
+
+    /* =============================================
+       МОДАЛЬНЫЕ ОКНА
+    ============================================= */
+    .модальный-фон {
+      position: fixed;
+      inset: 0;
+      background: rgba(50, 30, 10, 0.55);
+      backdrop-filter: blur(4px);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+
+    .модальный-фон--открытый {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .модальное-окно {
+      background: var(--цвет-карточка);
+      border: 1px solid var(--цвет-рамка);
+      border-radius: 3px;
+      padding: 32px 36px;
+      width: 100%;
+      max-width: 510px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      transform: translateY(14px);
+      transition: transform 0.25s;
+      box-shadow: 0 16px 60px rgba(50, 30, 10, 0.25);
+    }
+
+    .модальный-фон--открытый .модальное-окно {
+      transform: translateY(0);
+    }
+
+    .модальное-окно__заголовок {
+      font-family: 'Cormorant SC', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--цвет-пергамент);
+      margin-bottom: 20px;
+      letter-spacing: 0.07em;
+    }
+
+    .модальное-окно__закрыть {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: none;
+      border: none;
+      color: var(--цвет-текст-dim);
+      cursor: pointer;
+      font-size: 18px;
+      padding: 4px;
+      transition: color 0.2s;
+    }
+
+    .модальное-окно__закрыть:hover {
+      color: var(--цвет-пергамент);
+    }
+
+    .модальное-окно__подвал {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--цвет-рамка-2);
+    }
+
+    /* =============================================
+       УВЕДОМЛЕНИЯ
+    ============================================= */
+    .уведомления {
+      position: fixed;
+      bottom: 26px;
+      right: 26px;
+      z-index: 9000;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .уведомление {
+      background: var(--цвет-карточка);
+      border: 1px solid var(--цвет-рамка);
+      border-radius: 2px;
+      padding: 12px 18px;
+      font-family: 'Cormorant SC', serif;
+      font-size: 12px;
+      letter-spacing: 0.09em;
+      color: var(--цвет-текст);
+      box-shadow: 0 4px 20px rgba(50, 30, 10, 0.2);
+      max-width: 290px;
+      animation: уведИн 0.3s ease, уведАут 0.3s ease 2.7s forwards;
+    }
+
+    .уведомление--успех { border-left: 3px solid #5c8a5c; }
+    .уведомление--ошибка { border-left: 3px solid var(--цвет-алый); }
+
+    @keyframes уведИн  { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: none; } }
+    @keyframes уведАут { from { opacity: 1; } to { opacity: 0; } }
+
+    /* =============================================
+       МЕЛКИЕ УТИЛИТЫ
+    ============================================= */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--цвет-фон-2); }
+    ::-webkit-scrollbar-thumb { background: rgba(139, 105, 20, 0.3); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(139, 105, 20, 0.5); }
+
+    @media (max-width: 480px) {
+      .карточка { padding: 16px; }
+      .модальное-окно { padding: 20px 16px; }
+      .навигация__кнопка { padding: 14px 10px; font-size: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =============================================
+       ШАПКА
+  ============================================= -->
+  <header class="шапка">
+    <div class="шапка__подпись">✦ &nbsp; ЛЕТО 7121 ОТ СОТВОРЕНИЯ МИРА &nbsp; ✦</div>
+    <h1 class="шапка__заголовок">ЦАРИЦЫНЪ</h1>
+    <p class="шапка__слоган">Хроника восстановления · 1613 год от Рождества Христова</p>
+  </header>
+
+  <!-- =============================================
+       НАВИГАЦИЯ
+       Чтобы добавить вкладку: скопируйте кнопку и добавьте страницу ниже
+  ============================================= -->
+  <nav class="навигация">
+    <button class="навигация__кнопка навигация__кнопка--активная" onclick="показатьСтраницу('правила', this)">📋 Правила</button>
+    <button class="навигация__кнопка" onclick="показатьСтраницу('персонажи', this)">⚔️ Персонажи</button>
+    <button class="навигация__кнопка" onclick="показатьСтраницу('квесты', this)">🗺️ Квесты</button>
+    <button class="навигация__кнопка" onclick="показатьСтраницу('о-игре', this)">📖 О игре</button>
+  </nav>
+
+  <main>
+
+    <!-- =============================================
+         СТРАНИЦА: ПРАВИЛА (главная)
+    ============================================= -->
+    <section id="страница-правила" class="страница страница--активная">
+      <div class="контейнер">
+
+        <div class="заголовок-раздела">
+          <h2>Правила &amp; Вопросы</h2>
+          <div class="разделитель">✦ ✦ ✦</div>
+          <p>Своды законов и ответы на частые вопросы</p>
+        </div>
+
+        <!-- Блок правил -->
+        <div class="блок-правил">
+          <div class="блок-правил__шапка">
+            <div class="блок-правил__заголовок">📜 Правила</div>
+            <button class="кнопка кнопка--красная" onclick="открытьМодалПравило()">+ Добавить правило</button>
+          </div>
+          <div id="фильтр-категорий" class="фильтр-категорий"></div>
+          <div id="список-правил" class="список-правил"></div>
+        </div>
+
+        <!-- Блок FAQ -->
+        <div class="блок-правил">
+          <div class="блок-правил__шапка">
+            <div class="блок-правил__заголовок">❓ Вопрос — Ответ</div>
+            <button class="кнопка кнопка--красная" onclick="открытьМодалФАК()">+ Добавить вопрос</button>
+          </div>
+          <div id="список-фак" class="список-фак"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =============================================
+         СТРАНИЦА: ПЕРСОНАЖИ
+    ============================================= -->
+    <section id="страница-персонажи" class="страница">
+      <div class="контейнер">
+
+        <div class="заголовок-раздела">
+          <h2>Персонажи</h2>
+          <div class="разделитель">✦ ✦ ✦</div>
+          <p>Жители и странники Царицына</p>
+        </div>
+
+        <div class="генератор">
+
+          <div class="карточка">
+            <div class="поле">
+              <label>Имя (необязательно)</label>
+              <input type="text" id="перс-имя" placeholder="Оставьте пустым — придумает само">
+            </div>
+            <div class="поле">
+              <label>Сословие</label>
+              <select id="перс-сословие">
+                <option value="">🎲 Случайное</option>
+                <option>Стрелец</option>
+                <option>Казак</option>
+                <option>Купец</option>
+                <option>Священник</option>
+                <option>Дьяк</option>
+                <option>Боярин</option>
+                <option>Знахарь</option>
+                <option>Беглый холоп</option>
+                <option>Иноземец</option>
+                <option>Разбойник</option>
+                <option>Юродивый</option>
+              </select>
+            </div>
+            <div class="поле">
+              <label>Пол</label>
+              <select id="перс-пол">
+                <option value="">🎲 Случайный</option>
+                <option value="м">Мужской</option>
+                <option value="ж">Женский</option>
+              </select>
+            </div>
+            <button class="кнопка кнопка--красная" onclick="создатьПерсонажа()" style="width:100%">
+              ✦ Создать персонажа
+            </button>
+          </div>
+
+          <div class="карточка" id="результат-персонажа">
+            <div class="результат-заглушка">
+              <div class="результат-заглушка__иконка">👤</div>
+              <p>Заполните форму — летописец сотворит жителя Царицына</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================
+         СТРАНИЦА: КВЕСТЫ
+    ============================================= -->
+    <section id="страница-квесты" class="страница">
+      <div class="контейнер">
+
+        <div class="заголовок-раздела">
+          <h2>Квесты</h2>
+          <div class="разделитель">✦ ✦ ✦</div>
+          <p>Испытания для героев Царицына</p>
+        </div>
+
+        <div class="генератор">
+
+          <div class="карточка">
+            <div class="поле">
+              <label>Тип квеста</label>
+              <select id="квест-тип">
+                <option value="">🎲 Случайный</option>
+                <option>Расследование</option>
+                <option>Сражение / Оборона</option>
+                <option>Дипломатия</option>
+                <option>Разведка</option>
+                <option>Строительство / Помощь</option>
+                <option>Торговля / Контрабанда</option>
+                <option>Мистика / Нечисть</option>
+              </select>
+            </div>
+            <div class="поле">
+              <label>Сложность</label>
+              <select id="квест-сложность">
+                <option value="">🎲 Случайная</option>
+                <option>Лёгкая (1 сессия)</option>
+                <option>Средняя (2–3 сессии)</option>
+                <option>Тяжёлая (кампания)</option>
+              </select>
+            </div>
+            <div class="поле">
+              <label>Локация</label>
+              <select id="квест-локация">
+                <option value="">🎲 Случайная</option>
+                <option>Торговая площадь</option>
+                <option>Кремль и крепостные стены</option>
+                <option>Волжская пристань</option>
+                <option>Посад (слободы)</option>
+                <option>Заволжская степь</option>
+                <option>Леса севернее города</option>
+                <option>Подземелья и погреба</option>
+                <option>Казачий стан</option>
+              </select>
+            </div>
+            <button class="кнопка кнопка--красная" onclick="создатьКвест()" style="width:100%">
+              ✦ Создать квест
+            </button>
+          </div>
+
+          <div class="карточка" id="результат-квеста">
+            <div class="результат-заглушка">
+              <div class="результат-заглушка__иконка">🗺️</div>
+              <p>Выберите параметры — судьба уготовит испытание героям</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================
+         СТРАНИЦА: О ИГРЕ
+    ============================================= -->
+    <section id="страница-о-игре" class="страница">
+      <div class="контейнер">
+
+        <div class="заголовок-раздела">
+          <h2>О Игре</h2>
+          <div class="разделитель">✦ ✦ ✦</div>
+        </div>
+
+        <div class="о-игре">
+
+          <div class="карточка">
+            <div class="цитата">
+              «Смута миновала, но раны её свежи. Царицын — деревянная крепость на великой реке Волге — лежит в запустении. Новый царь далеко. Здесь, на краю степи, всё решают люди.»
+            </div>
+          </div>
+
+          <div class="карточка">
+            <h3>Место и время</h3>
+            <p>Действие разворачивается в <strong>Царицыне</strong> — пограничном городе в низовьях Волги — в <strong>1613–1620-е годы</strong>. Смутное время позади: самозванцы разбиты, интервенты изгнаны. Но разруха ощущается повсюду: сожжённые посады, разбредшееся население, кочевники у стен.</p>
+          </div>
+
+          <div class="карточка">
+            <h3>Темы игры</h3>
+            <ul>
+              <li>Восстановление города и управление ресурсами</li>
+              <li>Конфликт казаков, стрельцов, купцов и беженцев</li>
+              <li>Угрозы с востока: ногайские набеги и волжские разбойники</li>
+              <li>Политические интриги молодого царства Романовых</li>
+              <li>Знахари, юродивые, «нечистые места» и народные суеверия</li>
+            </ul>
+          </div>
+
+          <div class="карточка">
+            <h3>Как пользоваться</h3>
+            <ul>
+              <li><strong>Правила</strong> — добавляйте игровые правила по категориям и вопросы с ответами</li>
+              <li><strong>Персонажи</strong> — генерируйте NPC и игровых персонажей одним нажатием</li>
+              <li><strong>Квесты</strong> — создавайте задания прямо за столом, без интернета</li>
+              <li>Всё хранится в браузере и работает без регистрации</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =============================================
+       МОДАЛЬ: ДОБАВИТЬ ПРАВИЛО
+  ============================================= -->
+  <div class="модальный-фон" id="модаль-правило">
+    <div class="модальное-окно">
+      <button class="модальное-окно__закрыть" onclick="закрытьМодаль('модаль-правило')">✕</button>
+      <div class="модальное-окно__заголовок">Новое правило</div>
+      <div class="поле">
+        <label>Категория</label>
+        <input type="text" id="пр-категория" placeholder="Напр.: Бой, Магия, Путешествия…" list="список-категорий">
+        <datalist id="список-категорий"></datalist>
+      </div>
+      <div class="поле">
+        <label>Заголовок правила</label>
+        <input type="text" id="пр-заголовок" placeholder="Напр.: «Инициатива в бою»">
+      </div>
+      <div class="поле">
+        <label>Описание</label>
+        <textarea id="пр-текст" style="min-height:130px" placeholder="Подробное описание правила…"></textarea>
+      </div>
+      <div class="модальное-окно__подвал">
+        <button class="кнопка кнопка--прозрачная" onclick="закрытьМодаль('модаль-правило')">Отмена</button>
+        <button class="кнопка кнопка--красная" onclick="сохранитьПравило()">Сохранить ✦</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =============================================
+       МОДАЛЬ: ДОБАВИТЬ ВОПРОС-ОТВЕТ
+  ============================================= -->
+  <div class="модальный-фон" id="модаль-фак">
+    <div class="модальное-окно">
+      <button class="модальное-окно__закрыть" onclick="закрытьМодаль('модаль-фак')">✕</button>
+      <div class="модальное-окно__заголовок">Новый вопрос</div>
+      <div class="поле">
+        <label>Вопрос</label>
+        <input type="text" id="фак-вопрос" placeholder="Напр.: «Можно ли атаковать дважды за ход?»">
+      </div>
+      <div class="поле">
+        <label>Ответ</label>
+        <textarea id="фак-ответ" style="min-height:120px" placeholder="Развёрнутый ответ…"></textarea>
+      </div>
+      <div class="модальное-окно__подвал">
+        <button class="кнопка кнопка--прозрачная" onclick="закрытьМодаль('модаль-фак')">Отмена</button>
+        <button class="кнопка кнопка--красная" onclick="сохранитьФАК()">Сохранить ✦</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Контейнер для уведомлений -->
+  <div class="уведомления" id="уведомления"></div>
+
+
+  <!-- =============================================
+       JAVASCRIPT
+  ============================================= -->
+  <script>
+
+    // ==========================================
+    // НАВИГАЦИЯ
+    // ==========================================
+
+    function показатьСтраницу(id, кнопка) {
+      // Скрываем все страницы
+      document.querySelectorAll('.страница').forEach(function(страница) {
+        страница.classList.remove('страница--активная');
+      });
+      // Снимаем активность со всех кнопок
+      document.querySelectorAll('.навигация__кнопка').forEach(function(кн) {
+        кн.classList.remove('навигация__кнопка--активная');
+      });
+      // Показываем нужную страницу
+      document.getElementById('страница-' + id).classList.add('страница--активная');
+      // Делаем кнопку активной
+      if (кнопка) кнопка.classList.add('навигация__кнопка--активная');
+    }
+
+
+    // ==========================================
+    // МОДАЛЬНЫЕ ОКНА
+    // ==========================================
+
+    function открытьМодаль(id) {
+      document.getElementById(id).classList.add('модальный-фон--открытый');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function закрытьМодаль(id) {
+      document.getElementById(id).classList.remove('модальный-фон--открытый');
+      document.body.style.overflow = '';
+    }
+
+    // Закрытие по клику на фон
+    document.querySelectorAll('.модальный-фон').forEach(function(фон) {
+      фон.addEventListener('click', function(событие) {
+        if (событие.target === фон) закрытьМодаль(фон.id);
+      });
+    });
+
+
+    // ==========================================
+    // УВЕДОМЛЕНИЯ
+    // ==========================================
+
+    function показатьУведомление(текст, тип) {
+      тип = тип || 'успех';
+      var контейнер = document.getElementById('уведомления');
+      var уведомление = document.createElement('div');
+      уведомление.className = 'уведомление уведомление--' + тип;
+      уведомление.textContent = текст;
+      контейнер.appendChild(уведомление);
+      setTimeout(function() { уведомление.remove(); }, 3200);
+    }
+
+
+    // ==========================================
+    // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+    // ==========================================
+
+    // Экранирование HTML (защита от XSS)
+    function экранировать(строка) {
+      if (строка == null) return '';
+      return String(строка)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // Случайный элемент массива
+    function случайный(массив) {
+      return массив[Math.floor(Math.random() * массив.length)];
+    }
+
+    // N случайных элементов без повторений
+    function несколькоСлучайных(массив, количество) {
+      var копия = массив.slice();
+      var результат = [];
+      for (var i = 0; i < количество && копия.length > 0; i++) {
+        var индекс = Math.floor(Math.random() * копия.length);
+        результат.push(копия.splice(индекс, 1)[0]);
+      }
+      return результат;
+    }
+
+    // Бросок характеристики: 3d6 (3–18)
+    function броситьХар() {
+      return Math.floor(Math.random() * 6) + 1
+           + Math.floor(Math.random() * 6) + 1
+           + Math.floor(Math.random() * 6) + 1;
+    }
+
+
+    // ==========================================
+    // ПРАВИЛА — хранение в localStorage
+    // ==========================================
+
+    function получитьПравила() {
+      try { return JSON.parse(localStorage.getItem('царицын_правила') || '[]'); }
+      catch (e) { return []; }
+    }
+
+    function записатьПравила(правила) {
+      localStorage.setItem('царицын_правила', JSON.stringify(правила));
+    }
+
+    var активнаяКатегория = ''; // '' = показать все
+
+    function отрисоватьПравила() {
+      var правила = получитьПравила();
+      var списокЭл = document.getElementById('список-правил');
+      var фильтрЭл = document.getElementById('фильтр-категорий');
+      var датаЭл   = document.getElementById('список-категорий');
+
+      // Собираем уникальные категории
+      var категории = правила
+        .map(function(п) { return п.категория; })
+        .filter(function(к, и, а) { return к && а.indexOf(к) === и; });
+
+      // Обновляем datalist для автодополнения
+      датаЭл.innerHTML = категории.map(function(к) {
+        return '<option value="' + экранировать(к) + '">';
+      }).join('');
+
+      // Отрисовываем кнопки фильтра
+      if (категории.length > 0) {
+        фильтрЭл.innerHTML =
+          '<button class="фильтр-категорий__кнопка' + (активнаяКатегория === '' ? ' фильтр-категорий__кнопка--активная' : '') + '" onclick="установитьКатегорию(\'\')">Все</button>' +
+          категории.map(function(к) {
+            var активная = активнаяКатегория === к ? ' фильтр-категорий__кнопка--активная' : '';
+            return '<button class="фильтр-категорий__кнопка' + активная + '" onclick="установитьКатегорию(\'' + экранировать(к) + '\')">' + экранировать(к) + '</button>';
+          }).join('');
+      } else {
+        фильтрЭл.innerHTML = '';
+      }
+
+      // Фильтруем по категории
+      var отфильтрованные = активнаяКатегория
+        ? правила.filter(function(п) { return п.категория === активнаяКатегория; })
+        : правила;
+
+      if (отфильтрованные.length === 0) {
+        списокЭл.innerHTML = '<div class="пусто"><div class="пусто__иконка">📜</div><p>' +
+          (активнаяКатегория ? 'В этой категории нет правил.' : 'Добавьте первое правило игры.') +
+          '</p></div>';
+        return;
+      }
+
+      списокЭл.innerHTML = отфильтрованные.map(function(п) {
+        var реальныйИндекс = правила.indexOf(п);
+        return '<div class="карточка">' +
+          '<button class="кнопка-удалить" onclick="удалитьПравило(' + реальныйИндекс + ')" title="Удалить">✕</button>' +
+          (п.категория ? '<div class="правило__категория">' + экранировать(п.категория) + '</div>' : '') +
+          '<div class="правило__заголовок">' + экранировать(п.заголовок) + '</div>' +
+          '<div class="правило__текст">' + экранировать(п.текст) + '</div>' +
+          '</div>';
+      }).join('');
+    }
+
+    function установитьКатегорию(категория) {
+      активнаяКатегория = категория;
+      отрисоватьПравила();
+    }
+
+    function открытьМодалПравило() {
+      document.getElementById('пр-категория').value = '';
+      document.getElementById('пр-заголовок').value = '';
+      document.getElementById('пр-текст').value = '';
+      открытьМодаль('модаль-правило');
+      setTimeout(function() { document.getElementById('пр-категория').focus(); }, 260);
+    }
+
+    function сохранитьПравило() {
+      var категория = document.getElementById('пр-категория').value.trim();
+      var заголовок = document.getElementById('пр-заголовок').value.trim();
+      var текст     = document.getElementById('пр-текст').value.trim();
+
+      if (!заголовок) { показатьУведомление('Укажите заголовок правила', 'ошибка'); return; }
+      if (!текст)     { показатьУведомление('Напишите текст правила', 'ошибка'); return; }
+
+      var правила = получитьПравила();
+      правила.push({ категория: категория, заголовок: заголовок, текст: текст });
+      записатьПравила(правила);
+      закрытьМодаль('модаль-правило');
+      отрисоватьПравила();
+      показатьУведомление('Правило добавлено ✦');
+    }
+
+    function удалитьПравило(индекс) {
+      if (!confirm('Удалить это правило?')) return;
+      var правила = получитьПравила();
+      правила.splice(индекс, 1);
+      записатьПравила(правила);
+      отрисоватьПравила();
+      показатьУведомление('Правило удалено');
+    }
+
+
+    // ==========================================
+    // FAQ — хранение в localStorage
+    // ==========================================
+
+    function получитьФАК() {
+      try { return JSON.parse(localStorage.getItem('царицын_фак') || '[]'); }
+      catch (e) { return []; }
+    }
+
+    function записатьФАК(фак) {
+      localStorage.setItem('царицын_фак', JSON.stringify(фак));
+    }
+
+    function отрисоватьФАК() {
+      var фак = получитьФАК();
+      var список = document.getElementById('список-фак');
+
+      if (фак.length === 0) {
+        список.innerHTML = '<div class="пусто"><div class="пусто__иконка">❓</div><p>Добавьте первый вопрос с ответом.</p></div>';
+        return;
+      }
+
+      список.innerHTML = фак.map(function(элемент, индекс) {
+        return '<div class="фак-элемент" id="фак-' + индекс + '">' +
+          '<button class="фак-вопрос" onclick="переключитьФАК(' + индекс + ')" style="padding-right:80px">' +
+            экранировать(элемент.вопрос) +
+            '<button class="фак-удалить" onclick="удалитьФАК(event,' + индекс + ')" title="Удалить">✕</button>' +
+          '</button>' +
+          '<div class="фак-ответ">' + экранировать(элемент.ответ) + '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    function переключитьФАК(индекс) {
+      var элемент = document.getElementById('фак-' + индекс);
+      элемент.classList.toggle('фак-элемент--открытый');
+    }
+
+    function открытьМодалФАК() {
+      document.getElementById('фак-вопрос').value = '';
+      document.getElementById('фак-ответ').value = '';
+      открытьМодаль('модаль-фак');
+      setTimeout(function() { document.getElementById('фак-вопрос').focus(); }, 260);
+    }
+
+    function сохранитьФАК() {
+      var вопрос = document.getElementById('фак-вопрос').value.trim();
+      var ответ  = document.getElementById('фак-ответ').value.trim();
+
+      if (!вопрос) { показатьУведомление('Напишите вопрос', 'ошибка'); return; }
+      if (!ответ)  { показатьУведомление('Напишите ответ', 'ошибка'); return; }
+
+      var фак = получитьФАК();
+      фак.push({ вопрос: вопрос, ответ: ответ });
+      записатьФАК(фак);
+      закрытьМодаль('модаль-фак');
+      отрисоватьФАК();
+      показатьУведомление('Вопрос добавлен ✦');
+    }
+
+    function удалитьФАК(событие, индекс) {
+      событие.stopPropagation();
+      if (!confirm('Удалить этот вопрос?')) return;
+      var фак = получитьФАК();
+      фак.splice(индекс, 1);
+      записатьФАК(фак);
+      отрисоватьФАК();
+      показатьУведомление('Вопрос удалён');
+    }
+
+
+    // ==========================================
+    // ГЕНЕРАТОР ПЕРСОНАЖЕЙ
+    // ==========================================
+
+    // --- Таблицы данных ---
+
+    var ИМЕНА = {
+      мужМен:  ['Иван','Фёдор','Григорий','Михаил','Василий','Степан','Пётр','Никита','Тимофей','Семён','Афанасий','Илья','Кузьма','Макар','Борис','Лука','Дмитрий','Яков','Андрей','Данила'],
+      мужОтч:  ['Иванович','Фёдорович','Григорьевич','Михайлович','Васильевич','Степанович','Петрович','Никитич','Тимофеевич','Семёнович','Афанасьевич','Ильич','Кузьмич','Борисович','Лукич','Дмитриевич','Яковлевич','Андреевич'],
+      мужФам:  ['Кривой','Рыжий','Долгий','Кузнецов','Медведев','Волков','Черных','Горбатый','Молчан','Бородатый','Хромой','Гром','Ус'],
+      женИмя:  ['Авдотья','Акулина','Варвара','Дарья','Евдокия','Ксения','Лукерья','Марфа','Матрёна','Прасковья','Ульяна','Фёкла','Агафья','Анна','Арина'],
+      женОтч:  ['Ивановна','Фёдоровна','Григорьевна','Михайловна','Васильевна','Петровна','Никитична','Тимофеевна','Семёновна','Борисовна','Лукинична','Дмитриевна','Яковлевна','Андреевна'],
+      женФам:  ['Кривая','Рыжая','Долгая','Чернова','Медведева','Волкова','Горбатая','Тихая','Молчунья','Проворная'],
+    };
+
+    var ПРОИСХОЖДЕНИЕ = ['Москва','Нижний Новгород','Астрахань','Самара','Казань','Тверь','Псков','Рязань','берегов Дона','берегов Терека','смоленских лесов','ярославских слобод'];
+
+    // Данные по каждому сословию
+    // Чтобы добавить новое — скопируйте блок и заполните
+    var СОСЛОВИЯ = {
+      'Стрелец': {
+        толькоМуж: true,
+        внешность: [
+          'Крепкого сложения, с мозолистыми руками. На щеке — давний шрам от сабли.',
+          'Жилистый, невысокий, с цепким взглядом. Пищаль держит как продолжение руки.',
+          'Широкоплечий, с густой бородой. Кафтан штопан, но оружие начищено.',
+        ],
+        история: [
+          'Служит в Царицынском приказе с прихода Романовых. Во Смуту потерял двух братьев.',
+          'Бывалый солдат, прошедший несколько казачьих бунтов. Чужакам не доверяет.',
+          'Молодой стрелец, первый год на службе. Горит рвением, но плохо знает здешние нравы.',
+        ],
+        снаряжение: ['Пищаль с порохом','Бердыш','Тесак','Стрелецкий кафтан','Оселок','Кисет с табаком'],
+        навык: ['Меткий выстрел: перезаряжает пищаль вдвое быстрее','Строевой шаг: +1 к защите в группе','Стойкость: игнорирует первый страх за сцену'],
+        мотивация: ['Защитить город, ставший домом','Выслужить землицу','Найти брата, пропавшего в Смуту'],
+        тайна: ['Брал взятки от купцов','Дезертировал однажды в бою','Тайно обучает чужого сына грамоте'],
+        черты: ['Дисциплинированный','Верный присяге','Осторожный','Молчаливый','Суеверный','Выносливый','Справедливый','Прямолинейный'],
+      },
+      'Казак': {
+        толькоМуж: true,
+        внешность: [
+          'Смуглый, с длинными усами и бритой головой. Движется легко, как зверь.',
+          'Высокий, плечистый, со шрамами на обеих руках. Взгляд спокойный, холодный.',
+          'Невысокий, но жилистый. Сабля на боку явно выходила из ножен не раз.',
+        ],
+        история: [
+          'Пришёл с Дона после Смуты — говорит, ищет покоя, но в глазах читается иное.',
+          'Служил нескольким самозванцам. Теперь клянётся царю, но старые привычки живы.',
+          'Защищал Царицын от ногайских набегов. Город ему должен — и он об этом помнит.',
+        ],
+        снаряжение: ['Сабля донской работы','Лук со стрелами','Кожаный доспех','Аркан','Фляга с вином','Засапожный нож'],
+        навык: ['Степная езда: в конном бою атакует дважды','Кочевье: вдвое дольше без еды и воды','Братство: казаки-союзники не нападут первыми'],
+        мотивация: ['Найти место, где никто не командует','Отомстить боярину, предавшему станицу','Вернуться на Дон с почётом'],
+        тайна: ['Знает, где спрятана казна самозванца','Его отец служил польскому королю','Убил своего атамана — и считает это правильным'],
+        черты: ['Вольный','Гордый','Вспыльчивый','Верный слову','Лихой','Суеверный','Недоверчивый к власти','Щедрый к своим'],
+      },
+      'Купец': {
+        толькоМуж: false,
+        внешностьМ: [
+          'Полный, с румяными щеками и хитрыми глазами. Одет добротно, но без лишней роскоши.',
+          'Тощий, с быстрыми руками и острым носом. Говорит и считает очень быстро.',
+        ],
+        внешностьЖ: [
+          'Статная вдова, унаследовавшая лавку мужа. Держится строго, умеет расположить к себе.',
+          'Молодая, с острыми глазами и уверенной речью — не сразу поймёшь, что за словами.',
+        ],
+        история: [
+          'Торгует мехами и зерном между Астраханью и Самарой. Царицын — ключевая точка.',
+          'Потерял товар в Смуту, поднимается с нуля. Должен кредиторам, но виду не подаёт.',
+          'Один из немногих, кто остался в городе в тёмные годы — и знает все его тайны.',
+        ],
+        снаряжение: ['Кошель с монетами','Счётные косточки','Нож за поясом','Товар (ткань/меха)','Торговая грамота','Хорошее вино'],
+        навык: ['Торговая смекалка: найдёт или продаст что угодно','Осведомители: узнаёт слухи раньше всех','Оценка: с ходу называет цену любого предмета'],
+        мотивация: ['Стать богатейшим купцом Поволжья','Получить монопольную грамоту','Выкупить брата из ногайского плена'],
+        тайна: ['Торгует с ногайцами втайне','Скупает краденое','Однажды его «товар» — живые люди'],
+        черты: ['Расчётливый','Вежливый','Хитрый','Осторожный','Терпеливый','Жадноватый','Общительный','Предусмотрительный'],
+      },
+      'Священник': {
+        толькоМуж: true,
+        внешность: [
+          'Бледный, с тихим голосом. Но в нужный момент взгляд поднимается — и обжигает.',
+          'Полный, краснолицый, с громовым голосом для проповедей.',
+          'Высокий, сухой, с длинными седеющими волосами. Говорит медленно и взвешенно.',
+        ],
+        история: [
+          'Служит в единственной уцелевшей церкви Царицына. Видел, как город горел.',
+          'Прибыл с новым воеводой — говорят, следит за нравами не только духовно.',
+          'Бывший монах, вышедший в мир после Смуты. Несёт что-то, о чём не говорит.',
+        ],
+        снаряжение: ['Нагрудный крест','Псалтырь','Ладанка с мощами','Посох','Ладан','Нательный нож'],
+        навык: ['Слово Божие: успокаивает толпу или поднимает дух','Исповедь: знает тайны половины города','Благословение: союзники +1 к стойкости'],
+        мотивация: ['Восстановить храм и сделать его главным в округе','Уберечь паству от ереси','Найти пропавшие церковные книги'],
+        тайна: ['Хранит ересь в сердце','Знает, где укрыты ценности, и молчит','В Смуту благословил самозванца'],
+        черты: ['Набожный','Мудрый','Осторожный','Терпеливый','Милосердный','Хитрый','Суеверный','Влиятельный'],
+      },
+      'Дьяк': {
+        толькоМуж: true,
+        внешность: [
+          'Бледный книжник с пятнами чернил на пальцах. За стёртым взглядом — острый ум.',
+          'Аккуратный, в хорошем кафтане, с чётко расчёсанной бородой.',
+          'Немолодой, сутулый, с прищуренными глазами. Знает всё, что проходит через приказ.',
+        ],
+        история: [
+          'Служит в воеводском приказе, ведёт налоги и жалобы. Знает о городе больше воеводы.',
+          'Прошёл через нескольких хозяев — московских, польских, снова московских.',
+          'Единственный грамотный чиновник в округе. Без него приказ встанет.',
+        ],
+        снаряжение: ['Перо и чернильница','Книга записей','Воеводская печать','Кошель','Нож для бумаги','Ключ от архива'],
+        навык: ['Грамотность: читает и пишет на трёх языках','Бюрократия: ускорит или затормозит любое дело','Архив: помнит каждый прочитанный документ'],
+        мотивация: ['Стать главным дьяком всего Поволжья','Собрать взяток на дворянство','Уничтожить компромат в старом архиве'],
+        тайна: ['Копирует грамоты и продаёт копии','Его брат — разбойник на Волге','Подделал документы ещё в Смуту'],
+        черты: ['Педантичный','Осторожный','Меркантильный','Наблюдательный','Двуличный','Памятливый','Тихий','Грамотный'],
+      },
+      'Боярин': {
+        толькоМуж: false,
+        внешностьМ: [
+          'Дородный, с окладистой бородой и гордым взглядом. Дорогой кафтан как доспех.',
+          'Немолодой, с острыми скулами. Видно, что Смута потрепала его не меньше простых людей.',
+        ],
+        внешностьЖ: [
+          'Статная боярыня с прямой спиной и тяжёлым взглядом. Управляет поместьем сама.',
+          'Молодая, с отца приехала. За скромным нарядом — стальная воля.',
+        ],
+        история: [
+          'Прибыл с царской грамотой для надзора за восстановлением. Местные не рады.',
+          'Поместье сожгли в Смуту. Теперь в Царицыне с горсткой слуг и большими долгами.',
+          'Старый род, много потерявший. Держится гордо, но золото кончилось.',
+        ],
+        снаряжение: ['Сабля дорогой работы','Кольчуга под кафтаном','Грамоты на землю','Слуга (NPC)','Перстень с печатью','Почти пустой кошель'],
+        навык: ['Родовое имя: открывает многие двери','Командование: нижестоящие слушаются','Связи: раз в кампанию — помощь из Москвы'],
+        мотивация: ['Вернуть сожжённое поместье','Занять место воеводы','Выгодно выдать дочь замуж'],
+        тайна: ['В Смуту переписывался с поляками','Его грамоты на землю — подделка','Убил двоюродного брата ради наследства'],
+        черты: ['Высокомерный','Властный','Гордый','Обидчивый','Хитрый','Осторожный','Щедрый к нужным','Беспощадный к врагам'],
+      },
+      'Знахарь': {
+        толькоМуж: false,
+        внешностьМ: [
+          'Сухой старик с клочковатой бородой и взглядом, видящим чуть больше, чем следует.',
+          'Средних лет, с тихими движениями и запахом трав. Говорит редко, но точно.',
+        ],
+        внешностьЖ: [
+          'Немолодая женщина с косами, в которые вплетены сушёные цветы. Улыбается редко.',
+          'Молодая, с тёмными глазами и слишком спокойным лицом. Жители шепчутся за спиной.',
+        ],
+        история: [
+          'Живёт на краю посада. К нему ходят, когда лекарь не помогает.',
+          'Говорят, обучался у старой ведуньи с Дона. Что та передала — не говорит.',
+          'Помог многим в Смуту. Никто не скажет против — кроме священника.',
+        ],
+        снаряжение: ['Котомка с травами','Нож для кореньев','Камень-оберег','Ладанка с чем-то странным','Тетрадь с рецептами','Сушёные грибы'],
+        навык: ['Лечение: восстанавливает 1к6 здоровья на отдыхе','Зелья: варит отвары из подручных трав','Чутьё нечистого: ощущает потустороннее'],
+        мотивация: ['Найти ученика для передачи знаний','Понять природу видений с юности','Защитить деревню от грядущей болезни'],
+        тайна: ['Умеет говорить с духами и боится этого','Помог умереть тому, кто слишком страдал','Знает, кто сжёг деревню, но молчит'],
+        черты: ['Наблюдательный','Замкнутый','Мудрый','Суеверный','Загадочный','Терпеливый','Добрый к страждущим','Осторожный с чужаками'],
+      },
+      'Беглый холоп': {
+        толькоМуж: false,
+        внешностьМ: [
+          'Тощий, с бегающим взглядом и привычкой держаться в тени. Движения быстрые.',
+          'Крепкий, со шрамом от кандалов на запястье. Смотрит исподлобья.',
+        ],
+        внешностьЖ: [
+          'Худая, с острыми чертами и настороженными глазами. Прячет лицо за платком.',
+          'Молодая, с вечно опущенным взглядом, но руки сжаты в кулаки.',
+        ],
+        история: [
+          'Бежал от боярина в Смуту — тогда никому не было до беглых. Живёт под чужим именем.',
+          'Хозяин погиб в войне. Бежал пока была возможность, на восток.',
+          'Говорит, что вольный казак. Никто не проверяет — пока.',
+        ],
+        снаряжение: ['Нож','Котомка с едой','Чужая одёжа','Небольшой топор','Огниво','Верёвка'],
+        навык: ['Тень: в городе почти не оставляет следов','Выживание: добывает еду и кров из ничего','Чёрный рынок: знает, кто торгует без вопросов'],
+        мотивация: ['Добраться до вольных казачьих земель','Отомстить бывшему хозяину','Купить себе вольную грамоту'],
+        тайна: ['На самом деле убил хозяина — не просто бежал','Носит украденный господский документ','Его уже ищут — и уже близко'],
+        черты: ['Осторожный','Недоверчивый','Ловкий','Изобретательный','Злопамятный','Молчаливый','Упрямый','Выживальщик'],
+      },
+      'Иноземец': {
+        толькоМуж: false,
+        внешностьМ: [
+          'Высокий светловолосый мужчина с акцентом и непривычными манерами.',
+          'Смуглый, с тёмными глазами и цветистой речью. Непонятно, откуда родом.',
+        ],
+        внешностьЖ: [
+          'Женщина с непривычными чертами и лёгким акцентом. Говорит хорошо, но думает иначе.',
+          'Молодая, с узором татуировки, скрытым под рукавом.',
+        ],
+        история: [
+          'Голландский торговец, застрявший из-за войны. Ждёт оказии плыть дальше.',
+          'Персидский купец, ищущий новые рынки. Знает несколько языков.',
+          'Польский наёмник, оставшийся после Смуты. Воевал на обеих сторонах — теперь ни на чьей.',
+        ],
+        снаряжение: ['Нож европейской работы','Иноземные монеты','Документ на чужом языке','Подзорная труба','Малый пистоль','Крепкое вино'],
+        навык: ['Полиглот: говорит на 3 языках','Чужой взгляд: замечает то, что местные не видят','Связи: раз в кампанию — весть из-за рубежа'],
+        мотивация: ['Добраться до Персии с товаром','Разузнать секреты для нанимателя','Найти человека, скрывшегося в России'],
+        тайна: ['Шпион иностранной державы','Разыскивается на родине за убийство','Его документ — подделка'],
+        черты: ['Любопытный','Адаптивный','Хитрый','Наблюдательный','Осторожный','Общительный','Прагматичный','Чужак'],
+      },
+      'Разбойник': {
+        толькоМуж: false,
+        внешностьМ: [
+          'Кряжистый, с разбитым носом и шрамом через щёку. Взгляд спокойный — давно не боится.',
+          'Молодой, подвижный, с хитрой усмешкой. Нож всегда наготове.',
+        ],
+        внешностьЖ: [
+          'Стройная, быстрая, с холодными глазами. В городе — под другим именем.',
+          'Молодая, которую принимают за торговку. До поры до времени.',
+        ],
+        история: [
+          'Ушёл в леса в Смуту — сначала от голода, потом понравилось.',
+          'Бывший стрелец, разогнанный без жалования. Стал брать сам.',
+          'Главарь небольшой ватаги на Волге. В Царицын заходит аккуратно.',
+        ],
+        снаряжение: ['Топор','Засапожный нож','Кистень','Краденая одежда','Мешок для добычи','Фляга с вином'],
+        навык: ['Удар из тени: первый удар с преимуществом','Знание дорог: все тайные тропы в округе','Страх: обычные люди не смеют перечить'],
+        мотивация: ['Ограбить купеческий обоз и скрыться','Найти предателя, сдавшего ватагу','Завязать с разбоем, если найдётся повод'],
+        тайна: ['На нём кровь людей, которые не заслужили','Разыскивается в трёх городах','Прячет добычу в тайнике — даже от ватаги'],
+        черты: ['Дерзкий','Ловкий','Вспыльчивый','Подозрительный','Верный своим','Жадный','Суеверный','Беспощадный к врагам'],
+      },
+      'Юродивый': {
+        толькоМуж: false,
+        внешностьМ: [
+          'Оборванный, босой даже в холод. Говорит загадками, смеётся невпопад.',
+          'Молодой парень с блаженной улыбкой. Живёт на паперти, видит то, чего нет.',
+        ],
+        внешностьЖ: [
+          'Немолодая, растрёпанная, с тихим голосом. Иногда говорит разумно — и это пугает.',
+          'Девочка-подросток, объявленная блаженной. За кажущимся безумием — острый взгляд.',
+        ],
+        история: [
+          'Говорят, в Смуту видел Богородицу — с тех пор говорит только правду, хотя и непонятно.',
+          'Бывший грамотей, свихнувшийся от увиденного. Но что-то в нём осталось.',
+          'Пришёл неизвестно откуда. Знает о людях вещи, которые знать не должен.',
+        ],
+        снаряжение: ['Рваная рубаха','Деревянный крест','Камешки в кармане','Краюха хлеба'],
+        навык: ['Слово правды: раз за сцену — пророчество, которое сбывается','Неприкосновенный: тронуть — грех','Чужой страх: враги нападают на него последними'],
+        мотивация: ['Донести важное видение до нужных людей','Искупить что-то, о чём не говорит','Просто выжить ещё один день'],
+        тайна: ['Симулирует безумие — всё прекрасно понимает','Знает, кто убил важного человека, но не может объяснить','В прошлом был очень опасным человеком'],
+        черты: ['Непредсказуемый','Честный до грубости','Безбоязненный','Добросердечный','Загадочный','Незлобивый','Пронзительный','Несвязный'],
+      },
+    };
+
+    function создатьПерсонажа() {
+      var блокРезультата = document.getElementById('результат-персонажа');
+
+      // Читаем форму
+      var введённоеИмя  = document.getElementById('перс-имя').value.trim();
+      var введённоеСосл = document.getElementById('перс-сословие').value;
+      var введённыйПол  = document.getElementById('перс-пол').value;
+
+      // Выбираем сословие
+      var ключиСословий = Object.keys(СОСЛОВИЯ);
+      var сословие = введённоеСосл || случайный(ключиСословий);
+      var данные = СОСЛОВИЯ[сословие];
+
+      // Определяем пол с учётом ограничений сословия
+      var пол = введённыйПол;
+      if (!пол) {
+        пол = данные.толькоМуж ? 'м' : (Math.random() < 0.5 ? 'м' : 'ж');
+      }
+      if (пол === 'ж' && данные.толькоМуж) пол = 'м';
+
+      // Генерируем имя
+      var полноеИмя;
+      if (введённоеИмя) {
+        полноеИмя = введённоеИмя;
+      } else if (пол === 'м') {
+        полноеИмя = случайный(ИМЕНА.мужМен) + ' ' + случайный(ИМЕНА.мужОтч);
+        if (Math.random() < 0.6) полноеИмя += ' ' + случайный(ИМЕНА.мужФам);
+      } else {
+        полноеИмя = случайный(ИМЕНА.женИмя) + ' ' + случайный(ИМЕНА.женОтч);
+        if (Math.random() < 0.5) полноеИмя += ' ' + случайный(ИМЕНА.женФам);
+      }
+
+      var возраст = 20 + Math.floor(Math.random() * 35);
+      var происхождение = случайный(ПРОИСХОЖДЕНИЕ);
+
+      // Внешность с учётом пола
+      var массивВнешности = данные.внешность ||
+        (пол === 'ж' ? данные.внешностьЖ : данные.внешностьМ);
+      var внешность = случайный(массивВнешности);
+
+      var история   = случайный(данные.история);
+      var снаряжение = несколькоСлучайных(данные.снаряжение, 4);
+      var навык      = случайный(данные.навык);
+      var мотивация  = случайный(данные.мотивация);
+      var тайна      = случайный(данные.тайна);
+      var черты      = несколькоСлучайных(данные.черты, 3);
+
+      // 4 характеристики: Сила, Ловкость, Интеллект, Воля (3d6 каждая)
+      var характеристики = {
+        'Сила':      броситьХар(),
+        'Ловкость':  броситьХар(),
+        'Интеллект': броситьХар(),
+        'Воля':      броситьХар(),
+      };
+
+      // Собираем HTML результата
+      var харHtml = Object.entries(характеристики).map(function(пара) {
+        return '<div class="хар-ячейка">' +
+          '<span class="хар-ячейка__название">' + пара[0] + '</span>' +
+          '<span class="хар-ячейка__значение">' + пара[1] + '</span>' +
+        '</div>';
+      }).join('');
+
+      блокРезультата.innerHTML =
+        '<div class="результат__имя">' + экранировать(полноеИмя) + '</div>' +
+        '<div class="результат__подзаголовок">' + экранировать(сословие) + ' · ' + возраст + ' лет · родом из ' + экранировать(происхождение) + '</div>' +
+
+        '<div class="результат__блок"><div class="результат__метка">ВНЕШНОСТЬ</div>' +
+        '<div class="результат__текст">' + экранировать(внешность) + '</div></div>' +
+
+        '<div class="результат__блок"><div class="результат__метка">ПРЕДЫСТОРИЯ</div>' +
+        '<div class="результат__текст">' + экранировать(история) + '</div></div>' +
+
+        '<div class="результат__блок"><div class="результат__метка">ХАРАКТЕРИСТИКИ</div>' +
+        '<div class="характеристики">' + харHtml + '</div></div>' +
+
+        '<div class="результат__блок"><div class="результат__метка">ЧЕРТЫ ХАРАКТЕРА</div>' +
+        '<div class="теги">' + черты.map(function(ч) {
+          return '<span class="тег тег--золото">' + экранировать(ч) + '</span>';
+        }).join('') + '</div></div>' +
+
+        '<div class="результат__блок"><div class="результат__метка">ОСОБЫЙ НАВЫК</div>' +
+        '<div class="результат__текст">' + экранировать(навык) + '</div></div>' +
+
+        '<div class="результат__блок"><div class="результат__метка">СНАРЯЖЕНИЕ</div>' +
+        '<div class="теги">' + снаряжение.map(function(п) {
+          return '<span class="тег">' + экранировать(п) + '</span>';
+        }).join('') + '</div></div>' +
+
+        '<div class="результат__блок"><div class="результат__метка">МОТИВАЦИЯ</div>' +
+        '<div class="результат__текст">' + экранировать(мотивация) + '</div></div>' +
+
+        '<div class="результат__блок"><div class="результат__метка">ТАЙНА</div>' +
+        '<div class="результат__текст" style="color:var(--цвет-алый)">' + экранировать(тайна) + '</div></div>' +
+
+        '<div class="результат__действия">' +
+        '<button class="кнопка кнопка--прозрачная" onclick="создатьПерсонажа()">↺ Ещё раз</button>' +
+        '</div>';
+
+      показатьУведомление('Персонаж создан: ' + полноеИмя + ' ✦');
+    }
+
+
+    // ==========================================
+    // ГЕНЕРАТОР КВЕСТОВ
+    // ==========================================
+
+    // --- Таблицы данных ---
+
+    var ТИПЫ_КВЕСТОВ   = ['Расследование','Сражение / Оборона','Дипломатия','Разведка','Строительство / Помощь','Торговля / Контрабанда','Мистика / Нечисть'];
+    var СЛОЖНОСТИ      = ['Лёгкая (1 сессия)','Средняя (2–3 сессии)','Тяжёлая (кампания)'];
+    var ЛОКАЦИИ        = ['Торговая площадь','Кремль и крепостные стены','Волжская пристань','Посад (слободы)','Заволжская степь','Леса севернее города','Подземелья и погреба','Казачий стан'];
+
+    var ЗАВЯЗКИ = [
+      'Воевода вызывает героев на тайную беседу и говорит лишь: «Вы мне нужны».',
+      'Посыльный мальчик передаёт записку без подписи: «Приходите до рассвета».',
+      'На рынке умирает незнакомец — и успевает прошептать важное имя.',
+      'Ночью кто-то рисует на стене дома игроков странный знак.',
+      'Очевидец в кружале рассказывает историю, в которую никто не верит — кроме игроков.',
+      'Купец предлагает щедрую плату — но о цели молчит до последнего.',
+      'Пожар посреди ночи раскрывает то, что было спрятано годами.',
+      'Старуха-знахарка говорит, что видела «нехорошее» в том месте.',
+      'Пришедший с Дона казак называет имя, которое считали мёртвым.',
+    ];
+
+    // Ситуации по типу квеста
+    var СИТУАЦИИ = {
+      'Расследование': [
+        'В городе пропали трое стрельцов за три ночи. Воевода велит замять, но тела находят.',
+        'Кто-то ворует зерно из казённого амбара — изнутри, без взлома.',
+        'Купца нашли мёртвым в запертой комнате. Все свидетели дают противоречивые показания.',
+        'По городу ходят слухи о лазутчике, передающем сведения кочевникам.',
+      ],
+      'Сражение / Оборона': [
+        'Ногайский отряд замечен в двух верстах. Стрельцов не хватает — ищут добровольцев.',
+        'Волжские разбойники захватили купеческий струг с важным грузом.',
+        'Беглые холопы взяли заложников и требуют вольную грамоту.',
+        'На стены ночью взобрались неизвестные — их нужно взять живыми.',
+      ],
+      'Дипломатия': [
+        'Казачий атаман прислал ультиматум: платите — или будут последствия.',
+        'Два купеческих рода на грани кровавой вендетты — нужно примирить до завтра.',
+        'Ногайский посол прибыл неожиданно. Воевода болен. Некому принять.',
+        'Люди из Москвы с проверкой. Воеводе есть что скрывать.',
+      ],
+      'Разведка': [
+        'Нужно выяснить, что происходит в лагере кочевников за рекой — и вернуться живыми.',
+        'В лесу севернее кто-то прячется уже неделю. Кто — неизвестно.',
+        'Воевода подозревает купца в шпионаже. Нужны доказательства.',
+        'Пропавший обоз видели у развилки на Самарской дороге.',
+      ],
+      'Строительство / Помощь': [
+        'Половина посада сгорела. Зима близко, материалов не хватает.',
+        'Колодец отравлен — нужно найти источник до начала эпидемии.',
+        'Беженцы прибывают сотнями. Еды нет, жилья нет, порядка нет.',
+        'Единственный мост через приток рухнул — торговля стоит.',
+      ],
+      'Торговля / Контрабанда': [
+        'Крупный обоз из Астрахани пропал. Груз — государственный.',
+        'Кто-то ввозит в город порох и оружие без ведома воеводы.',
+        'Конкурент использует нечестные методы. Нужно разобраться тихо.',
+        'Персидские товары продаются по подозрительно низкой цене.',
+      ],
+      'Мистика / Нечисть': [
+        'Дети в слободе слышат голоса из-под земли уже три ночи.',
+        'Умерший месяц назад человек появился живым — или похожий на него.',
+        'В старом погребе нашли вещи, которых там не должно быть. И следы.',
+        'Скот дохнет без причины. Знахарка говорит: «нечистое место».',
+      ],
+    };
+
+    // Цели по типу
+    var ЦЕЛИ = {
+      'Расследование':          ['Опросить всех свидетелей','Найти улику, которую скрывают','Установить виновного','Донести правду воеводе'],
+      'Сражение / Оборона':     ['Удержать позицию до подхода стрельцов','Уничтожить или рассеять врага','Взять главаря живым','Не допустить жертв среди мирных'],
+      'Дипломатия':             ['Выйти на встречу с нужным человеком','Найти компромисс','Не допустить кровопролития','Получить нужную подпись или слово'],
+      'Разведка':               ['Добраться до цели незамеченными','Собрать нужные сведения','Вернуться живыми','Не раскрыть нанимателя'],
+      'Строительство / Помощь': ['Раздобыть материалы','Организовать людей','Завершить работу до срока','Не допустить саботажа'],
+      'Торговля / Контрабанда': ['Выйти на источник','Перехватить груз','Собрать доказательства','Провернуть дело тихо'],
+      'Мистика / Нечисть':      ['Найти источник явления','Защитить жертв','Разобраться — нечисть или обман','Положить конец происходящему'],
+    };
+
+    var НПС = [
+      { имя: 'Авдей Кривой',         роль: 'свидетель',  описание: 'Видел всё — но боится говорить. Пьёт на постоялом дворе.' },
+      { имя: 'Прасковья-Скорая',     роль: 'информатор', описание: 'Торгует на рынке и знает всех. За медяк расскажет многое.' },
+      { имя: 'Сотник Пётр Рябов',    роль: 'союзник',    описание: 'Честный стрелецкий офицер. Устал от приказов начальства.' },
+      { имя: 'Аглая-знахарка',       роль: 'помощник',   описание: 'Живёт на краю посада. Знает о нечистом лучше священника.' },
+      { имя: 'Купец Ерёма Долгий',   роль: 'наниматель', описание: 'Богатый, хитрый, говорит правду только по необходимости.' },
+      { имя: 'Федька-шустрый',       роль: 'посыльный',  описание: 'Мальчик-сирота, знающий все закоулки города. Всё слышит.' },
+      { имя: 'Боярин Черных',        роль: 'препятствие',описание: 'Имеет свой интерес. Поможет только если выгодно.' },
+      { имя: 'Карим-толмач',         роль: 'посредник',  описание: 'Переводчик между мирами. Верен тому, кто больше платит.' },
+      { имя: 'Вдова Матрёна',        роль: 'жертва',     описание: 'Её мужа убили. Она знает — кто, но не может доказать.' },
+      { имя: 'Атаман Гаврила Ус',    роль: 'противник',  описание: 'Казачий главарь. Жёсткий, но не жестокий. Уважает силу.' },
+      { имя: 'Дьяк Тимофей Острый', роль: 'чиновник',   описание: 'Ведёт городские бумаги. Всё найдёт — за цену.' },
+      { имя: 'Ганс-немец',           роль: 'иноземец',   описание: 'Иностранный купец. Знает больше, чем должен.' },
+    ];
+
+    var ОСЛОЖНЕНИЯ = [
+      'Оказывается, наниматель скрыл половину правды.',
+      'Один из свидетелей мёртв к тому моменту, как до него добираются.',
+      'Воевода запрещает продолжать — очевидно, боится.',
+      'Неожиданный союзник оказывается частью проблемы.',
+      'Начинается буря или пожар — всё осложняется.',
+      'Ногайский разъезд замечен в округе — времени стало меньше.',
+      'Среди горожан паника по другому поводу.',
+      'Ключевая улика уничтожена до прихода героев.',
+      'Среди своих есть лазутчик — кто-то предупредил противника.',
+      'Нужный человек мёртв — или прикидывается мёртвым.',
+    ];
+
+    var НАГРАДЫ = [
+      'Жалование от воеводы и уважение стрельцов.',
+      'Купец платит щедро и открывает торговые маршруты.',
+      'Грамота на небольшой надел земли у реки.',
+      'Долг влиятельного человека — рано или поздно пригодится.',
+      'Трофейное оружие хорошей работы.',
+      'Сведения, которые дороже золота.',
+      'Убежище в городе и расположение местных.',
+      'Тайник с припасами и серебром.',
+    ];
+
+    var ТАЙНЫ_КВЕСТОВ = [
+      'Настоящий виновник — уважаемый человек в городе.',
+      'За происходящим стоит не тот, кто кажется.',
+      'Дело связано с давними событиями Смуты.',
+      'Заказчик преступления — сам наниматель.',
+      'Среди жертв есть тот, кто на самом деле не жертва.',
+      'Место хранит старую тайну, убивавшую и прежде.',
+      'Иноземный след — кто-то из-за рубежа тянет нити.',
+      'Двое ключевых людей тайно связаны родством или клятвой.',
+    ];
+
+    var НАЗВАНИЯ_КВЕСТОВ = {
+      'Расследование':          ['Тайна пропавших','Кровь на мостовой','Дело тёмное','Ложь и правда'],
+      'Сражение / Оборона':     ['Не сдавать стен','Последний рубеж','Держать позицию','Набег'],
+      'Дипломатия':             ['Слово против слова','На краю войны','Хрупкий мир','Две правды'],
+      'Разведка':               ['Под покровом ночи','Чужие тени','Что скрывают','Незамеченный'],
+      'Строительство / Помощь': ['Из пепла','Руками и потом','Пока зима не пришла','Возрождение'],
+      'Торговля / Контрабанда': ['Тёмный товар','Цена молчания','Не то, чем кажется','За спиной у всех'],
+      'Мистика / Нечисть':      ['Нечистое место','Голоса из земли','Мёртвые не спят','Знамение'],
+    };
+
+    function создатьКвест() {
+      var блок = document.getElementById('результат-квеста');
+
+      var тип      = document.getElementById('квест-тип').value      || случайный(ТИПЫ_КВЕСТОВ);
+      var сложность = document.getElementById('квест-сложность').value || случайный(СЛОЖНОСТИ);
+      var локация  = document.getElementById('квест-локация').value   || случайный(ЛОКАЦИИ);
+
+      var завязка    = случайный(ЗАВЯЗКИ);
+      var ситуации   = СИТУАЦИИ[тип] || ['Неожиданная угроза требует ответа.'];
+      var описание   = случайный(ситуации);
+      var целиПул    = ЦЕЛИ[тип] || ['Разобраться в ситуации','Выполнить задание','Остаться в живых'];
+      var цели       = несколькоСлучайных(целиПул, 3);
+      var нпс        = несколькоСлучайных(НПС, 2);
+      var осложнение = случайный(ОСЛОЖНЕНИЯ);
+      var награда    = случайный(НАГРАДЫ);
+      var тайна      = случайный(ТАЙНЫ_КВЕСТОВ);
+      var названия   = НАЗВАНИЯ_КВЕСТОВ[тип] || ['Дело для смелых'];
+      var название   = случайный(названия);
+
+      var нпсHtml = нпс.map(function(н) {
+        return '<div class="нпс-карточка">' +
+          '<div class="нпс-карточка__имя">' + экранировать(н.имя) +
+          ' <span class="нпс-карточка__роль">— ' + экранировать(н.роль) + '</span></div>' +
+          '<div class="нпс-карточка__описание">' + экранировать(н.описание) + '</div>' +
+        '</div>';
+      }).join('');
+
+      var целиHtml = цели.map(function(ц) {
+        return '<li>' + экранировать(ц) + '</li>';
+      }).join('');
+
+      блок.innerHTML =
+        '<div class="результат__имя">' + экранировать(название) + '</div>' +
+        '<div class="теги" style="margin-bottom:14px">' +
+          '<span class="тег тег--красный">' + экранировать(тип) + '</span>' +
+          '<span class="тег тег--золото">' + экранировать(сложность) + '</span>' +
+          '<span class="тег">' + экранировать(локация) + '</span>' +
+        '</div>' +
+
+        '<div class="результат__блок"><div class="результат__метка">ЗАВЯЗКА</div>' +
+        '<div class="результат__текст">' + экранировать(завязка) + '</div></div>' +
+
+        '<div class="результат__блок"><div class="результат__метка">СИТУАЦИЯ</div>' +
+        '<div class="результат__текст">' + экранировать(описание) + '</div></div>' +
+
+        '<div class="результат__блок"><div class="результат__метка">ЦЕЛИ</div>' +
+        '<ul class="цели-квеста">' + целиHtml + '</ul></div>' +
+
+        '<div class="результат__блок"><div class="результат__метка">КЛЮЧЕВЫЕ ПЕРСОНАЖИ</div>' +
+        нпсHtml + '</div>' +
+
+        '<div class="результат__блок"><div class="результат__метка">ОСЛОЖНЕНИЕ</div>' +
+        '<div class="результат__текст" style="color:var(--цвет-алый)">' + экранировать(осложнение) + '</div></div>' +
+
+        '<div class="результат__блок"><div class="результат__метка">НАГРАДА</div>' +
+        '<div class="результат__текст">' + экранировать(награда) + '</div></div>' +
+
+        '<div class="результат__блок"><div class="результат__метка">ТАЙНА (для Мастера)</div>' +
+        '<div class="результат__текст" style="font-style:italic;opacity:0.75">' + экранировать(тайна) + '</div></div>' +
+
+        '<div class="результат__действия">' +
+        '<button class="кнопка кнопка--прозрачная" onclick="создатьКвест()">↺ Ещё раз</button>' +
+        '</div>';
+
+      показатьУведомление('Квест: ' + название + ' ✦');
+    }
+
+
+    // ==========================================
+    // ЗАПУСК ПРИ ЗАГРУЗКЕ СТРАНИЦЫ
+    // ==========================================
+    отрисоватьПравила();
+    отрисоватьФАК();
+
+  </script>
+
+</body>
+</html>
